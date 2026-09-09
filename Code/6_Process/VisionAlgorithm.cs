@@ -235,16 +235,39 @@ namespace Vison_Inspect_System._6_Process
                 {
                     case CameraType.Camera1:
                         {
-                            string RunStatus = "0";
-                            string expoxyResult = "0";
-                            string pressureResult = "0";
-                            GetGlobalParameter("TotalRes", ref RunStatus);
-                            GetGlobalParameter("ExpoxyRes", ref expoxyResult);
-                            GetGlobalParameter("PressureRes", ref pressureResult);
-                            tmp.InspectTotalStauts = RunStatus == "0" ? false : true;
-                            tmp.ExcessEpoxyInspectStatus = expoxyResult == "0" ? false : true;
-                            tmp.PressureInspectStatus = pressureResult == "0" ? false : true;
-                            tmp.AOIInspectStatus = RunStatus == "0" ? false : true;
+                            string runStatus = "0";
+                            string pin1Dis1 = "0";
+                            string pin1Dis1Res = "0";
+                            string pin1Dis2 = "0";
+                            string pin1Dis2Res = "0";
+                            string pin2Dis1 = "0";
+                            string pin2Dis1Res = "0";
+                            string pin2Dis2 = "0";
+                            string pin2Dis2Res = "0";
+                            string pin1Pin2Dis = "0";
+                            string pin1Pin2DisRes = "0";
+                            GetGlobalParameter("TotalRes", ref runStatus);
+                            GetGlobalParameter("Pin1Dis1", ref pin1Dis1);
+                            GetGlobalParameter("Pin1Dis1Res", ref pin1Dis1Res);
+                            GetGlobalParameter("Pin1Dis2", ref pin1Dis2);
+                            GetGlobalParameter("Pin1Dis2Res", ref pin1Dis2Res);
+                            GetGlobalParameter("Pin2Dis1", ref pin2Dis1);
+                            GetGlobalParameter("Pin2Dis1Res", ref pin2Dis1Res);
+                            GetGlobalParameter("Pin2Dis2", ref pin2Dis2);
+                            GetGlobalParameter("Pin2Dis2Res", ref pin2Dis2Res);
+                            GetGlobalParameter("Pin1Pin2Dis", ref pin1Pin2Dis);
+                            GetGlobalParameter("Pin1Pin2DisRes", ref pin1Pin2DisRes);
+                            tmp.InspectTotalStauts = runStatus == "0" ? false : true;
+                            tmp.Pin1Dis1 =Convert.ToDouble(pin1Dis1);
+                            tmp.Pin1Dis1Res = pin1Dis1Res == "0" ? false : true;
+                            tmp.Pin1Dis2 = Convert.ToDouble(pin1Dis2);
+                            tmp.Pin1Dis2Res = pin1Dis2Res == "0" ? false : true;
+                            tmp.Pin2Dis1 = Convert.ToDouble(pin2Dis1);
+                            tmp.Pin2Dis1Res = pin2Dis1Res == "0" ? false : true;
+                            tmp.Pin2Dis2 = Convert.ToDouble(pin2Dis2);
+                            tmp.Pin2Dis2Res = pin2Dis2Res == "0" ? false : true;
+                            tmp.Pin1Pin2Dis = Convert.ToDouble(pin1Pin2Dis);
+                            tmp.Pin1Pin2DisRes = pin1Pin2DisRes == "0" ? false : true;
                             break;
                         }
                     default:
@@ -272,17 +295,51 @@ namespace Vison_Inspect_System._6_Process
             public bool InspectTotalStauts = false;
 
             /// <summary>
-            /// 视觉检测多胶的结果
+            /// Pin针1距离检测1
             /// </summary>
-            public bool ExcessEpoxyInspectStatus = false;
+            public double Pin1Dis1 = 0.000f;
             /// <summary>
-            /// 视觉检测的压铸的结果
+            /// Pin针1距离检测1结果
             /// </summary>
-            public bool PressureInspectStatus = false;
+            public bool Pin1Dis1Res = false;
+
             /// <summary>
-            /// 视觉检测AOI结果
+            /// Pin针1距离检测2
             /// </summary>
-            public bool AOIInspectStatus = false;
+            public double Pin1Dis2 = 0.000f;
+            /// <summary>
+            /// Pin针1距离检测2结果
+            /// </summary>
+            public bool Pin1Dis2Res = false;
+
+            /// <summary>
+            /// Pin针2距离检测1
+            /// </summary>
+            public double Pin2Dis1 = 0.000f;
+            /// <summary>
+            /// Pin针2距离检测1结果
+            /// </summary>
+            public bool Pin2Dis1Res = false;
+
+            /// <summary>
+            /// Pin针2距离检测2
+            /// </summary>
+            public double Pin2Dis2 = 0.000f;
+            /// <summary>
+            /// Pin针2距离检测2结果
+            /// </summary>
+            public bool Pin2Dis2Res = false;
+            /// <summary>
+            /// Pin针1和Pin针2之间的距离
+            /// </summary>
+            public double Pin1Pin2Dis = 0.000f;
+            /// <summary>
+            /// Pin针1和Pin针2之间的距离结果
+            /// </summary>
+            public bool Pin1Pin2DisRes = false;
+            /// <summary>
+            /// 检测耗时
+            /// </summary>
             public string CostTime { set; get; }
 
         }

@@ -50,7 +50,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>图标.ico</ApplicationIcon>
+    <ApplicationIcon>
+    </ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup />
@@ -348,7 +349,6 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <None Include=".editorconfig" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -373,8 +373,6 @@
     <None Include="Pic_Source\保存图片.png" />
     <None Include="Pic_Source\增益.png" />
     <None Include="Pic_Source\换班时间.png" />
-    <Content Include="图标.ico" />
-    <Content Include="机器视觉图标.ico" />
     <None Include="Pic_Source\Connect.png" />
     <None Include="Pic_Source\Connectting.png" />
     <None Include="Pic_Source\UserMangage.png" />

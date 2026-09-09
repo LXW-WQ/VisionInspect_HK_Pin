@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
+using System.Web.Http.Results;
 using System.Windows.Forms;
 using Vison_Inspect_System._2_ComPart;
 using Vison_Inspect_System._2_ComPart.Normal_Form;
@@ -19,34 +20,40 @@ namespace Vison_Inspect_System
 {
     public partial class MainForm : Form
     {
-
         /// <summary>
         /// SQL表头枚举
         /// </summary>
         protected enum sqlHead
         {
             日期,
-            检测位置1数据1,
-            检测位置1数据2,
-            检测位置1高度差,
-            检测位置1判断结果,
-            检测位置2数据1,
-            检测位置2数据2,
-            检测位置2高度差,
-            检测位置2判断结果,
-            检测高度差判断总结果,
-            铜片位置1数据1,
-            铜片位置1数据2,
-            铜片位置1平面度,
-            铜片位置1平面度结果,
-            铜片位置2数据1,
-            铜片位置2数据2,
-            铜片位置2平面度,
-            铜片位置2平面度结果,
-            铜片平面度判断总结果,
-            多胶视觉检测结果,
-            铜片压铸视觉检测结果,
-            视觉检测总结果,
+            检测位1数据1,
+            检测位1数据2,
+            检测位1高度差,
+            检测位1判断结果,
+            检测位2数据1,
+            检测位2数据2,
+            检测位2高度差,
+            检测位2判断结果,
+            检测位3数据1,
+            检测位3数据2,
+            检测位3高度差,
+            检测位3判断结果,
+            检测位4数据1,
+            检测位4数据2,
+            检测位4高度差,
+            检测位4判断结果,
+            高度差检测总判断结果,
+            Pin针1距离1,
+            Pin针1距离1结果,
+            Pin针1距离2,
+            Pin针1距离2结果,
+            Pin针2距离1,
+            Pin针2距离1结果,
+            Pin针2距离2,
+            Pin针2距离2结果,
+            Pin针与Pin针2距离,
+            Pin针与Pin针2结果,
+            Pin针距离检测总结果,
             成品总结果
         }
 
@@ -947,6 +954,8 @@ namespace Vison_Inspect_System
                     StartTime = DateTime.Now;
                     modebusClient.ReadValue("x=3;7000", out short trigVisionSnap);//读取触发信号
                     modebusClient.ReadValue("x=3;7006", out short trigDataGet);//读取数据获取信号
+
+                    //执行视觉Pin针距离检测
                     if (trigVisionSnap == 1)
                     {
                         modebusClient.WriteValue("7000", (short)0);//将触发信号清零
@@ -978,17 +987,12 @@ namespace Vison_Inspect_System
                                                 }
                                                 cam.SaveImg(cam.CamConfig);
                                             }
-                                            sqlMessageDic[sqlHead.视觉检测总结果] = inspectTotalRes ? "OK" : "NG";
-                                            sqlMessageDic[sqlHead.多胶视觉检测结果] = result.Item2.ExcessEpoxyInspectStatus ? "OK" : "NG";
-                                            sqlMessageDic[sqlHead.铜片压铸视觉检测结果] = result.Item2.PressureInspectStatus ? "OK" : "NG";
-                                            //InsertVisionSql(result.Item2);
+                                            GetVisionRes(result.Item2);
                                             Log.SaveLog(LogType.Operate, $"视觉检测成功，结果：{(inspectTotalRes ? "OK" : "NG")}");
                                         }
                                         else
                                         {
-                                            sqlMessageDic[sqlHead.视觉检测总结果] = "NG";
-                                            sqlMessageDic[sqlHead.多胶视觉检测结果] = "NG";
-                                            sqlMessageDic[sqlHead.铜片压铸视觉检测结果] = "NG";
+                                            GetVisionRes(null);
                                             Log.SaveLog(LogType.comm, $"视觉检测失败，错误信息：VisonMaster返回的对象为null");
                                         }
                                     }
@@ -996,64 +1000,39 @@ namespace Vison_Inspect_System
                                 else
                                 {
                                     Log.SaveLog(LogType.comm, "获取图像失败");
-                                    sqlMessageDic[sqlHead.视觉检测总结果] = "NG";
-                                    sqlMessageDic[sqlHead.多胶视觉检测结果] = "NG";
-                                    sqlMessageDic[sqlHead.铜片压铸视觉检测结果] = "NG";
+                                    GetVisionRes(null);
                                 }
                             }
                             else
                             {
                                 Log.SaveLog(LogType.comm, "相机未连接或连接失败");
-                                sqlMessageDic[sqlHead.视觉检测总结果] = "NG";
-                                sqlMessageDic[sqlHead.多胶视觉检测结果] = "NG";
-                                sqlMessageDic[sqlHead.铜片压铸视觉检测结果] = "NG";
+                                GetVisionRes(null);
                             }
                         }
                         modebusClient.WriteValue("7001", (short)(inspectTotalRes ? 1 : 2));//视觉检测结果（1：OK；2：NG）
 
                         labCamResult.Invoke(new MethodInvoker(() =>
                         {
-                            labCamResult.Text = inspectTotalRes ? "视觉检测OK" : "视觉检测NG";
+                            labCamResult.Text = inspectTotalRes ? "视觉Pin针距离检测OK" : "视觉Pin针距离检测NG";
                             labCamResult.BackColor = inspectTotalRes ? Color.LimeGreen : Color.Red;
                         }));
                     }
+
+                    //执行PLC数据获取、主要是高度差的数据获取
                     if (trigDataGet == 1)
                     {
                         bool DataGetSuccess = true;
                         modebusClient.WriteValue("7006", (short)(0));//将数据获取信号清零
                         //执行高度相关PLC数据读取
-                        modebusClient.ReadValue("x=3;14288", out float[] lugDatas1, 2);//检测位置2个点的数据（汇川PLC地址R2000）
-                        modebusClient.ReadValue("x=3;14308", out float[] lugDatas2, 2);//检测位置2个点的数据（汇川PLC地址R2020）
-                        modebusClient.ReadValue("x=3;14328", out float[] lugDiffenceValues, 2);//检测位置两点之间的偏差值（汇川PLC地址R2040）
-                        modebusClient.ReadValue("x=3;14348", out short[] lugResArray, 2);//检测2个位置比较结果（汇川PLC地址R2060）
-                        List<float> lugDatas = new List<float>();
-                        for (int i = 0; i < lugDatas1.Length; i++)
-                        {
-                            lugDatas.Add(lugDatas1[i]);
-                            lugDatas.Add(lugDatas2[i]);
-                        }
-                        var err = UpdateForm(lugDatas.ToArray(), lugDiffenceValues, lugResArray,true);
-                        if (err != "")
-                        {
-                            Log.SaveLog(LogType.Error, $"高度差数据读取错误：{err}");
-                            DataGetSuccess = false;
-                        }
+                        modebusClient.ReadValue("x=3;14288", out float[] DetcDatas1, 4);//检测位置4个点的数据（汇川PLC地址R2000）
+                        modebusClient.ReadValue("x=3;14308", out float[] DetcDatas2, 4);//检测位置4个点的数据（汇川PLC地址R2020）
+                        modebusClient.ReadValue("x=3;14328", out float[] DetcDiffenceValues, 4);//检测位置两点之间的偏差值（汇川PLC地址R2040）
+                        modebusClient.ReadValue("x=3;14348", out short[] DetcResArray, 4);//检测2个位置比较结果（汇川PLC地址R2060）
 
-                        //执行铜片相关的PLC数据读取
-                        modebusClient.ReadValue("x=3;14388", out float[] flateDatas1, 2);//铜片位置1的2个点的数据
-                        modebusClient.ReadValue("x=3;14408", out float[] flateDatas2, 2);//铜片位置2的2个点的数据
-                        modebusClient.ReadValue("x=3;14428", out float[] flateDiffenceValues, 2);//铜片两个位置的平面度数据
-                        modebusClient.ReadValue("x=3;14448", out short[] flateResArray, 2);//铜片两个位置的平面度结果
-                        List<float> flateDatas = new List<float>();
-                        for (int i = 0; i < flateDatas1.Length; i++)
-                        {
-                            flateDatas.Add(flateDatas1[i]);
-                            flateDatas.Add(flateDatas2[i]);
-                        }
-                        err = UpdateForm(flateDatas.ToArray(), flateDiffenceValues, flateResArray, false);
+                        var err = UpdateForm(DetcDatas1, DetcDatas2, DetcDiffenceValues, DetcResArray);
                         if (err != "")
                         {
-                            Log.SaveLog(LogType.Error, $"铜片平面度数据读取错误：{err}");
+                            Log.SaveLog(LogType.Error, $"检测位高度差数据读取错误：{err}");
                             DataGetSuccess = false;
                         }
                         bool insertsqlFlag = InsertSql();
@@ -1085,6 +1064,40 @@ namespace Vison_Inspect_System
                 Log.SaveError(new StackTrace(new StackFrame(true)), new StackFrame(), ex);
             }
         }
+
+        private void GetVisionRes(InspectionResult visonRes)
+        {
+            if (visonRes != null)
+            {
+                sqlMessageDic[sqlHead.Pin针1距离1] = visonRes.Pin1Dis1.ToString();
+                sqlMessageDic[sqlHead.Pin针1距离1结果] = visonRes.Pin1Dis1Res ? "OK" : "NG";
+                sqlMessageDic[sqlHead.Pin针1距离2] = visonRes.Pin1Dis2.ToString();
+                sqlMessageDic[sqlHead.Pin针1距离2结果] = visonRes.Pin1Dis2Res ? "OK" : "NG";
+                sqlMessageDic[sqlHead.Pin针2距离1] = visonRes.Pin2Dis1.ToString();
+                sqlMessageDic[sqlHead.Pin针2距离1结果] = visonRes.Pin2Dis1Res ? "OK" : "NG";
+                sqlMessageDic[sqlHead.Pin针2距离2] = visonRes.Pin2Dis2.ToString();
+                sqlMessageDic[sqlHead.Pin针2距离2结果] = visonRes.Pin2Dis2Res ? "OK" : "NG";
+                sqlMessageDic[sqlHead.Pin针与Pin针2距离] = visonRes.Pin1Pin2Dis.ToString();
+                sqlMessageDic[sqlHead.Pin针与Pin针2结果] = visonRes.Pin1Pin2DisRes ? "OK" : "NG";
+                sqlMessageDic[sqlHead.Pin针距离检测总结果] = visonRes.InspectTotalStauts ? "OK" : "NG";
+            }
+            else
+            {
+                sqlMessageDic[sqlHead.Pin针1距离1] = "0.000";
+                sqlMessageDic[sqlHead.Pin针1距离1结果] = "NG";
+                sqlMessageDic[sqlHead.Pin针1距离2] = "0.000";
+                sqlMessageDic[sqlHead.Pin针1距离2结果] = "NG";
+                sqlMessageDic[sqlHead.Pin针2距离1] = "0.000";
+                sqlMessageDic[sqlHead.Pin针2距离1结果] = "NG";
+                sqlMessageDic[sqlHead.Pin针2距离2] = "0.000";
+                sqlMessageDic[sqlHead.Pin针2距离2结果] = "NG";
+                sqlMessageDic[sqlHead.Pin针与Pin针2距离] = "0.000";
+                sqlMessageDic[sqlHead.Pin针与Pin针2结果] = "NG";
+                sqlMessageDic[sqlHead.Pin针距离检测总结果] = "NG";
+            }
+        }
+
+
 
         private bool InsertDataToMysql(string insertSql)
         {
@@ -1186,80 +1199,48 @@ namespace Vison_Inspect_System
             return err;
         }
 
-        private string InsertVisionSql(InspectionResult result)
+        private string UpdateForm(float[] datas1, float[] datas2, float[] diffenceValues, short[] resArray)
         {
             var err = string.Empty;
-            string[] headInfos = new string[4] { "日期", "检测结果", "AOI检测结果", "总结果" };
-            string[] mesglist = new string[4]
+            if (datas1.Length != 4 || datas2.Length != 4)
             {
-                string.Format($"'{DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss")}'"),
-                string.Format($"'{(result.InspectTotalStauts?"OK":"NG")}'"),
-                string.Format($"'{(result.AOIInspectStatus?"OK":"NG")}'"),
-                string.Format($"'{((result.AOIInspectStatus&&result.InspectTotalStauts)?"OK":"NG")}'"),
-            };
-            string str1Head = string.Join(",", headInfos);
-            string str2Mesg = string.Join(",", mesglist);
-            string InsertSql1 = $"INSERT INTO ProductInspectTable2({str1Head})VALUES({str2Mesg})";
-            var insertRes = InsertDataToMysql(InsertSql1);
-            Log.SaveLog(LogType.Data, $"插入数据库语句【{InsertSql1}】{(insertRes ? "成功" : "失败")}");
-            return "";
-        }
-
-        private string UpdateForm(float[] datas, float[] diffenceValues, short[] resArray,bool isHeight)
-        {
-            var err = string.Empty;
-            string st = isHeight ? "高度" : "平面度";
-            if (datas.Length != 4)
-            {
-                err = $"平面的点位数据长度不正确、请确认PLC端数据发送是否正常！！！";
+                err = $"检测位置的点位数据长度不正确、请确认PLC端数据发送是否正常！！！";
                 return err;
             }
-            if (diffenceValues.Length != 2)
+            if (diffenceValues.Length != 4)
             {
-                err = $"平面的点偏差数据长度不正确、请确认PLC端数据发送是否正常！！！";
+                err = $"检测位高度差数据长度不正确、请确认PLC端数据发送是否正常！！！";
                 return err;
             }
-            if (resArray.Length != 2)
+            if (resArray.Length != 4)
             {
-                err = $"平面的点判断结果数据长度不正确、请确认PLC端数据发送是否正常！！！";
+                err = $"检测判断结果数据长度不正确、请确认PLC端数据发送是否正常！！！";
                 return err;
             }
             Dictionary<string, string> dataDic = new Dictionary<string, string>();
-            DataGridView dataGrid = isHeight ? dgData : dgFlatness;
-            dataGrid.Invoke(new MethodInvoker(() =>
+            dgData.Invoke(new MethodInvoker(() =>
             {
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < 4; i++)
                 {
-                    int a = (i * 2);
-                    int b = a + 1;
-                    bool rowres = resArray[i] == 1;
-                    string resStr = rowres ? "OK" : "NG";
-                    dataGrid.Rows[i].Cells[0].Value = (i + 1);
-                    dataGrid.Rows[i].Cells[1].Value = datas[a].ToString("F3");
-                    dataGrid.Rows[i].Cells[2].Value = datas[b].ToString("F3");
-                    dataGrid.Rows[i].Cells[3].Value = diffenceValues[i].ToString("F3");
-                    dataGrid.Rows[i].Cells[4].Value = resStr;
-                    if(isHeight)
+                    string resStr = resArray[i] == 1 ? "OK" : "NG";
+                    dgData.Rows[i].Cells[0].Value = (i + 1);
+                    dgData.Rows[i].Cells[1].Value = datas1[i].ToString("F3");
+                    dgData.Rows[i].Cells[2].Value = datas2[i].ToString("F3");
+                    dgData.Rows[i].Cells[3].Value = diffenceValues[i].ToString("F3");
+                    dgData.Rows[i].Cells[4].Value = resStr;
+
+                    dataDic.Add($"检测位{i + 1}数据1", datas1[i].ToString("F3"));
+                    dataDic.Add($"检测位{i + 1}数据2", datas2[i].ToString("F3"));
+                    dataDic.Add($"检测位{i + 1}高度差", diffenceValues[i].ToString("F3"));
+                    dataDic.Add($"检测位{i + 1}判断结果", resStr);
+
+                    if (resArray[i] == 1)
                     {
-                        dataDic.Add($"检测位置{i + 1}数据1", datas[a].ToString("F3"));
-                        dataDic.Add($"检测位置{i + 1}数据2", datas[b].ToString("F3"));
-                        dataDic.Add($"检测位置{i + 1}高度差", diffenceValues[i].ToString("F3"));
-                        dataDic.Add($"检测位置{i + 1}判断结果", resStr);
+                        dgData.Rows[i].DefaultCellStyle.BackColor = Color.LimeGreen;
                     }
                     else
                     {
-                        dataDic.Add($"铜片位置{i + 1}数据1", datas[a].ToString("F3"));
-                        dataDic.Add($"铜片位置{i + 1}数据2", datas[b].ToString("F3"));
-                        dataDic.Add($"铜片位置{i + 1}平面度", diffenceValues[i].ToString("F3"));
-                        dataDic.Add($"铜片位置{i + 1}平面度结果", resStr);
-                    }
-                    if (rowres)
-                    {
-                        dataGrid.Rows[i].DefaultCellStyle.BackColor = Color.LimeGreen;
-                    }
-                    else
-                    {
-                        dataGrid.Rows[i].DefaultCellStyle.BackColor = Color.Red;
+                        dgData.Rows[i].DefaultCellStyle.BackColor = Color.Red;
                     }
                 }
                 foreach (var item in dataDic)
@@ -1274,23 +1255,13 @@ namespace Vison_Inspect_System
                         }
                     }
                 }
-
             }));
             bool totalRes = !resArray.Contains((short)2);
-            if(isHeight)
+            sqlMessageDic[sqlHead.高度差检测总判断结果] = totalRes ? "OK" : "NG";
+            labDataRes.Invoke(new MethodInvoker(() =>
             {
-                sqlMessageDic[sqlHead.检测高度差判断总结果] = totalRes ? "OK" : "NG";
-            }
-            else
-            {
-                sqlMessageDic[sqlHead.铜片平面度判断总结果] = totalRes ? "OK" : "NG";
-            }
-            Label labRes = isHeight ? labDataRes : labFlatness;
-            string title = isHeight ? "高度差检测" : "平面度检测";
-            labRes.Invoke(new MethodInvoker(() =>
-            {
-                labRes.Text = title + (totalRes ? "OK" : "NG");
-                labRes.BackColor = totalRes ? Color.LimeGreen : Color.Red;
+                labDataRes.Text = "高度差检测" + (totalRes ? "OK" : "NG");
+                labDataRes.BackColor = totalRes ? Color.LimeGreen : Color.Red;
             }));
             return err;
         }
@@ -1299,9 +1270,8 @@ namespace Vison_Inspect_System
         {
             var err = string.Empty;
             sqlMessageDic[sqlHead.日期] = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
-            bool totalRes = (sqlMessageDic[sqlHead.检测高度差判断总结果] == "OK");
-            totalRes &= (sqlMessageDic[sqlHead.铜片平面度判断总结果] == "OK");
-            totalRes &= sqlMessageDic[sqlHead.视觉检测总结果] == "OK";
+            bool totalRes = (sqlMessageDic[sqlHead.高度差检测总判断结果] == "OK");
+            totalRes &= sqlMessageDic[sqlHead.Pin针距离检测总结果] == "OK";
             sqlMessageDic[sqlHead.成品总结果] = totalRes ? "OK" : "NG";
             List<string> Headlist = new List<string>();
             List<string> mesglist = new List<string>();
@@ -1312,7 +1282,7 @@ namespace Vison_Inspect_System
             }
             string str1Head = string.Join(",", Headlist);
             string str2Mesg = string.Join(",", mesglist);
-            string InsertSql1 = $"INSERT INTO ProductInspectTable2({str1Head})VALUES({str2Mesg})";
+            string InsertSql1 = $"INSERT INTO ProductInspectTable({str1Head})VALUES({str2Mesg})";
             var insertRes = InsertDataToMysql(InsertSql1);
             Log.SaveLog(LogType.Data, $"插入数据库语句【{InsertSql1}】{(insertRes ? "成功" : "失败")}");
             //更新统计表
@@ -1332,29 +1302,23 @@ namespace Vison_Inspect_System
                 return "错误的时间段";
             }
             //1、读取当前统计数据
-            string selectSql = $"SELECT * FROM statisticstable2 WHERE 序号 ={timeSlot}";
+            string selectSql = $"SELECT * FROM statisticstable WHERE 序号 ={timeSlot}";
             DataTable dt = GloabalTool.mysql_Insert.ExecSQLQuery(selectSql, null);
             bool totalRes = sqlMessageDic[sqlHead.成品总结果] == "OK";
-            bool HeightRes = sqlMessageDic[sqlHead.检测高度差判断总结果] == "OK";
-            bool plateRes= sqlMessageDic[sqlHead.铜片平面度判断总结果] == "OK";
-            bool expoxyVisionRes = sqlMessageDic[sqlHead.多胶视觉检测结果] == "OK";
-            bool pressureVisonRes = sqlMessageDic[sqlHead.铜片压铸视觉检测结果] == "OK";
+            bool heightRes = sqlMessageDic[sqlHead.高度差检测总判断结果] == "OK";
+            bool pinDetectRes= sqlMessageDic[sqlHead.Pin针距离检测总结果]=="OK";
+
             statisticsDic[timeSlot].TotalCount = Convert.ToInt32(dt.Rows[0]["总数"]) + 1;
             statisticsDic[timeSlot].TotalNGCount = Convert.ToInt32(dt.Rows[0]["NG数"]) + (!totalRes ? 1 : 0);
             statisticsDic[timeSlot].TotalOKCount = Convert.ToInt32(dt.Rows[0]["OK数"]) + (totalRes ? 1 : 0);
-            statisticsDic[timeSlot].HeightNGCount = Convert.ToInt32(dt.Rows[0]["高度差检测NG数"]) + (!HeightRes ? 1 : 0);
-            statisticsDic[timeSlot].HeightOKCount = Convert.ToInt32(dt.Rows[0]["高度差检测OK数"]) + (HeightRes ? 1 : 0);
-            statisticsDic[timeSlot].PlateNGCount = Convert.ToInt32(dt.Rows[0]["铜片平面度检测NG数"]) + (!plateRes ? 1 : 0);
-            statisticsDic[timeSlot].PlateOKCount = Convert.ToInt32(dt.Rows[0]["铜片平面度检测OK数"]) + (plateRes ? 1 : 0);
-            statisticsDic[timeSlot].ExcessExpoxyVisionNGCount = Convert.ToInt32(dt.Rows[0]["多胶视觉检NG数"]) + (!expoxyVisionRes ? 1 : 0);
-            statisticsDic[timeSlot].ExcessExpoxyVisionOKCount = Convert.ToInt32(dt.Rows[0]["多胶视觉检OK数"]) + (expoxyVisionRes ? 1 : 0);
-            statisticsDic[timeSlot].PressureVisionNGCount = Convert.ToInt32(dt.Rows[0]["铜片压铸视觉检NG数"]) + (!pressureVisonRes ? 1 : 0);
-            statisticsDic[timeSlot].PressureVisionOKCount = Convert.ToInt32(dt.Rows[0]["铜片压铸视觉检OK数"]) + (pressureVisonRes ? 1 : 0);
+            statisticsDic[timeSlot].HeightNGCount = Convert.ToInt32(dt.Rows[0]["高度差检测NG数"]) + (!heightRes ? 1 : 0);
+            statisticsDic[timeSlot].HeightOKCount = Convert.ToInt32(dt.Rows[0]["高度差检测OK数"]) + (heightRes ? 1 : 0);
+            statisticsDic[timeSlot].PinDetecNGCount = Convert.ToInt32(dt.Rows[0]["Pin针距离检测NG数"]) + (!pinDetectRes ? 1 : 0);
+            statisticsDic[timeSlot].PinDetecOKCount = Convert.ToInt32(dt.Rows[0]["Pin针距离检测OK数"]) + (pinDetectRes ? 1 : 0);
 
-
-            string[] headInfos = new string[12] {"时间段", "总数", "NG数","OK数",
-                "高度差检测NG数", "高度差检测OK数","铜片平面度检测NG数","铜片平面度检测OK数", "多胶视觉检NG数","多胶视觉检OK数","铜片压铸视觉检NG数","铜片压铸视觉检OK数"};
-            string[] mesglist = new string[12]
+            string[] headInfos = new string[8] {"时间段", "总数", "NG数","OK数",
+                "高度差检测NG数", "高度差检测OK数","Pin针距离检测NG数","Pin针距离检测OK数"};
+            string[] mesglist = new string[8]
             {
                 string.Format($"{statisticsDic[timeSlot].Timestamp}"),
                 string.Format($"{statisticsDic[timeSlot].TotalCount}"),
@@ -1362,12 +1326,8 @@ namespace Vison_Inspect_System
                 string.Format($"{statisticsDic[timeSlot].TotalOKCount}"),
                 string.Format($"{statisticsDic[timeSlot].HeightNGCount}"),
                 string.Format($"{statisticsDic[timeSlot].HeightOKCount}"),
-                string.Format($"{statisticsDic[timeSlot].PlateNGCount}"),
-                string.Format($"{statisticsDic[timeSlot].PlateOKCount}"),
-                string.Format($"{statisticsDic[timeSlot].ExcessExpoxyVisionNGCount}"),
-                string.Format($"{statisticsDic[timeSlot].ExcessExpoxyVisionOKCount}"),
-                string.Format($"{statisticsDic[timeSlot].PressureVisionNGCount}"),
-                string.Format($"{statisticsDic[timeSlot].PressureVisionOKCount}")
+                string.Format($"{statisticsDic[timeSlot].PinDetecNGCount}"),
+                string.Format($"{statisticsDic[timeSlot].PinDetecOKCount}")
             };
             List<string> updateInfoList = new List<string>();
             for (int i = 0; i < headInfos.Length; i++)
@@ -1375,7 +1335,7 @@ namespace Vison_Inspect_System
                 updateInfoList.Add($"{headInfos[i]}='{mesglist[i]}'");
             }
             string strUpdateMesg = string.Join(",", updateInfoList);
-            string UpDateSql1 = $"UPDATE statisticstable2 SET {strUpdateMesg} WHERE 序号 ={timeSlot}";
+            string UpDateSql1 = $"UPDATE statisticstable SET {strUpdateMesg} WHERE 序号 ={timeSlot}";
             int nRet = GloabalTool.mysql_Insert.ExecSQL(UpDateSql1);
             Log.SaveLog(LogType.Data, $"更新数据库语句【{UpDateSql1}】{(nRet > 0 ? "成功" : "失败")}");
             UpdateStatisticsFrm();
@@ -1385,7 +1345,7 @@ namespace Vison_Inspect_System
         private string UpdateStatisticsFrm()
         {
             var err = string.Empty;
-            string selectSql = $"SELECT * FROM statisticstable2";
+            string selectSql = $"SELECT * FROM statisticstable1";
             DataTable dt = GloabalTool.mysql_Insert.ExecSQLQuery(selectSql, null);
             if (dt.Rows.Count == 24)
             {
@@ -1429,7 +1389,6 @@ namespace Vison_Inspect_System
                 dgTotal.Rows[0].Cells[3].Value = totalOkCount;
                 bindingSource1.DataSource = dt;
                 dgStatistics.DataSource = bindingSource1;
-
             }));
             return err;
         }

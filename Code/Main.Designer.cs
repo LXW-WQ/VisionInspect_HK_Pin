@@ -31,10 +31,10 @@ namespace Vison_Inspect_System
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle37 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle38 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle39 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle40 = new System.Windows.Forms.DataGridViewCellStyle();
             this.HeadTitlePannel = new System.Windows.Forms.Panel();
             this.HeadTitletableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.labTitle = new System.Windows.Forms.Label();
@@ -100,32 +100,25 @@ namespace Vison_Inspect_System
             this.tableLayoutPanelH_ = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.labDataRes = new System.Windows.Forms.Label();
-            this.labCamResult = new System.Windows.Forms.Label();
-            this.labFlatness = new System.Windows.Forms.Label();
-            this.tableLayoutPanel_total = new System.Windows.Forms.TableLayoutPanel();
             this.dgTotal = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgStatistics = new System.Windows.Forms.DataGridView();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
-            this.dgFlatness = new System.Windows.Forms.DataGridView();
-            this.SNNum = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.data1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.data2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Flatness = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FlatnessRes = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgData = new System.Windows.Forms.DataGridView();
-            this.SN = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BendH = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.BendL = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HeightAltitude = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Result = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label3 = new System.Windows.Forms.Label();
             this.Ctrtimer = new System.Windows.Forms.Timer(this.components);
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.labCamResult = new System.Windows.Forms.Label();
+            this.SN = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DetPos1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DetPos2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HeightDiff = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Res = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.HeadTitlePannel.SuspendLayout();
             this.HeadTitletableLayoutPanel.SuspendLayout();
             this.toolStripFormOperation.SuspendLayout();
@@ -143,14 +136,13 @@ namespace Vison_Inspect_System
             this.tabPage3.SuspendLayout();
             this.tableLayoutPanelH_.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
-            this.tableLayoutPanel_total.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgTotal)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgStatistics)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.tableLayoutPanel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgFlatness)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgData)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).BeginInit();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // HeadTitlePannel
@@ -474,9 +466,9 @@ namespace Vison_Inspect_System
             this.labTime.BackColor = System.Drawing.Color.White;
             this.labTime.Dock = System.Windows.Forms.DockStyle.Fill;
             this.labTime.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.labTime.Location = new System.Drawing.Point(237, 0);
+            this.labTime.Location = new System.Drawing.Point(236, 0);
             this.labTime.Name = "labTime";
-            this.labTime.Size = new System.Drawing.Size(237, 25);
+            this.labTime.Size = new System.Drawing.Size(238, 25);
             this.labTime.TabIndex = 1;
             this.labTime.Text = "2019/06/05 17:27:30";
             this.labTime.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -510,7 +502,7 @@ namespace Vison_Inspect_System
             this.tableLayoutPanel2.ColumnCount = 3;
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 40.72581F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 59.27419F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 242F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 243F));
             this.tableLayoutPanel2.Controls.Add(this.labTime, 2, 0);
             this.tableLayoutPanel2.Controls.Add(this.label2, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.labRecipe, 1, 0);
@@ -543,7 +535,7 @@ namespace Vison_Inspect_System
             this.labRecipe.ForeColor = System.Drawing.Color.Blue;
             this.labRecipe.Location = new System.Drawing.Point(98, 0);
             this.labRecipe.Name = "labRecipe";
-            this.labRecipe.Size = new System.Drawing.Size(133, 25);
+            this.labRecipe.Size = new System.Drawing.Size(132, 25);
             this.labRecipe.TabIndex = 3;
             this.labRecipe.Tag = "";
             this.labRecipe.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -812,38 +804,37 @@ namespace Vison_Inspect_System
             this.tableLayoutPanelH_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelH_.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanelH_.Controls.Add(this.tableLayoutPanel4, 0, 4);
-            this.tableLayoutPanelH_.Controls.Add(this.tableLayoutPanel_total, 0, 1);
-            this.tableLayoutPanelH_.Controls.Add(this.pictureBox2, 0, 0);
             this.tableLayoutPanelH_.Controls.Add(this.tableLayoutPanel5, 0, 3);
+            this.tableLayoutPanelH_.Controls.Add(this.panel1, 0, 2);
+            this.tableLayoutPanelH_.Controls.Add(this.panel2, 0, 1);
             this.tableLayoutPanelH_.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanelH_.Location = new System.Drawing.Point(1020, 3);
             this.tableLayoutPanelH_.Name = "tableLayoutPanelH_";
             this.tableLayoutPanelH_.RowCount = 5;
             this.tableLayoutPanel1.SetRowSpan(this.tableLayoutPanelH_, 3);
-            this.tableLayoutPanelH_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 40F));
+            this.tableLayoutPanelH_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 30F));
+            this.tableLayoutPanelH_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
+            this.tableLayoutPanelH_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 35F));
             this.tableLayoutPanelH_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
-            this.tableLayoutPanelH_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 11.22244F));
-            this.tableLayoutPanelH_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 18.43687F));
             this.tableLayoutPanelH_.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 15F));
             this.tableLayoutPanelH_.Size = new System.Drawing.Size(432, 499);
             this.tableLayoutPanelH_.TabIndex = 14;
             // 
             // tableLayoutPanel4
             // 
-            this.tableLayoutPanel4.ColumnCount = 3;
+            this.tableLayoutPanel4.ColumnCount = 2;
             this.tableLayoutPanelH_.SetColumnSpan(this.tableLayoutPanel4, 2);
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel4.Controls.Add(this.labDataRes, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.labCamResult, 2, 0);
-            this.tableLayoutPanel4.Controls.Add(this.labFlatness, 1, 0);
+            this.tableLayoutPanel4.Controls.Add(this.labCamResult, 1, 0);
             this.tableLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 426);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(3, 424);
             this.tableLayoutPanel4.Name = "tableLayoutPanel4";
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(426, 70);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(426, 72);
             this.tableLayoutPanel4.TabIndex = 14;
             // 
             // labDataRes
@@ -854,54 +845,10 @@ namespace Vison_Inspect_System
             this.labDataRes.Font = new System.Drawing.Font("宋体", 25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.labDataRes.Location = new System.Drawing.Point(3, 0);
             this.labDataRes.Name = "labDataRes";
-            this.labDataRes.Size = new System.Drawing.Size(136, 70);
+            this.labDataRes.Size = new System.Drawing.Size(207, 72);
             this.labDataRes.TabIndex = 9;
             this.labDataRes.Text = "高度差检测OK";
             this.labDataRes.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labCamResult
-            // 
-            this.labCamResult.AutoSize = true;
-            this.labCamResult.BackColor = System.Drawing.Color.Lime;
-            this.labCamResult.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labCamResult.Font = new System.Drawing.Font("宋体", 25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.labCamResult.Location = new System.Drawing.Point(287, 0);
-            this.labCamResult.Name = "labCamResult";
-            this.labCamResult.Size = new System.Drawing.Size(136, 70);
-            this.labCamResult.TabIndex = 9;
-            this.labCamResult.Text = "视觉检测OK";
-            this.labCamResult.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // labFlatness
-            // 
-            this.labFlatness.AutoSize = true;
-            this.labFlatness.BackColor = System.Drawing.Color.Lime;
-            this.labFlatness.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.labFlatness.Font = new System.Drawing.Font("宋体", 25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.labFlatness.Location = new System.Drawing.Point(145, 0);
-            this.labFlatness.Name = "labFlatness";
-            this.labFlatness.Size = new System.Drawing.Size(136, 70);
-            this.labFlatness.TabIndex = 9;
-            this.labFlatness.Text = "平面度检测OK";
-            this.labFlatness.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // tableLayoutPanel_total
-            // 
-            this.tableLayoutPanel_total.ColumnCount = 1;
-            this.tableLayoutPanelH_.SetColumnSpan(this.tableLayoutPanel_total, 2);
-            this.tableLayoutPanel_total.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel_total.Controls.Add(this.dgTotal, 0, 1);
-            this.tableLayoutPanel_total.Controls.Add(this.dgStatistics, 0, 2);
-            this.tableLayoutPanel_total.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel_total.Location = new System.Drawing.Point(3, 203);
-            this.tableLayoutPanel_total.Name = "tableLayoutPanel_total";
-            this.tableLayoutPanel_total.RowCount = 3;
-            this.tableLayoutPanelH_.SetRowSpan(this.tableLayoutPanel_total, 2);
-            this.tableLayoutPanel_total.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel_total.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 24.5283F));
-            this.tableLayoutPanel_total.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 75.4717F));
-            this.tableLayoutPanel_total.Size = new System.Drawing.Size(426, 125);
-            this.tableLayoutPanel_total.TabIndex = 15;
             // 
             // dgTotal
             // 
@@ -912,16 +859,16 @@ namespace Vison_Inspect_System
             this.Column4,
             this.Column3});
             this.dgTotal.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgTotal.Location = new System.Drawing.Point(3, 23);
+            this.dgTotal.Location = new System.Drawing.Point(0, 0);
             this.dgTotal.Name = "dgTotal";
             this.dgTotal.RowTemplate.Height = 23;
-            this.dgTotal.Size = new System.Drawing.Size(420, 19);
+            this.dgTotal.Size = new System.Drawing.Size(426, 18);
             this.dgTotal.TabIndex = 11;
             // 
             // Column1
             // 
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Column1.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle37.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Column1.DefaultCellStyle = dataGridViewCellStyle37;
             this.Column1.FillWeight = 120F;
             this.Column1.HeaderText = "时间段";
             this.Column1.Name = "Column1";
@@ -930,8 +877,8 @@ namespace Vison_Inspect_System
             // 
             // Column2
             // 
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Column2.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle38.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Column2.DefaultCellStyle = dataGridViewCellStyle38;
             this.Column2.FillWeight = 120F;
             this.Column2.HeaderText = "总数";
             this.Column2.Name = "Column2";
@@ -940,8 +887,8 @@ namespace Vison_Inspect_System
             // 
             // Column4
             // 
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Column4.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle39.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Column4.DefaultCellStyle = dataGridViewCellStyle39;
             this.Column4.FillWeight = 120F;
             this.Column4.HeaderText = "NG数";
             this.Column4.Name = "Column4";
@@ -950,8 +897,8 @@ namespace Vison_Inspect_System
             // 
             // Column3
             // 
-            dataGridViewCellStyle4.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.Column3.DefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle40.Font = new System.Drawing.Font("宋体", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.Column3.DefaultCellStyle = dataGridViewCellStyle40;
             this.Column3.FillWeight = 120F;
             this.Column3.HeaderText = "OK数";
             this.Column3.Name = "Column3";
@@ -962,24 +909,12 @@ namespace Vison_Inspect_System
             // 
             this.dgStatistics.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgStatistics.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgStatistics.Location = new System.Drawing.Point(3, 48);
+            this.dgStatistics.Location = new System.Drawing.Point(0, 0);
             this.dgStatistics.Name = "dgStatistics";
             this.dgStatistics.ReadOnly = true;
             this.dgStatistics.RowTemplate.Height = 23;
-            this.dgStatistics.Size = new System.Drawing.Size(420, 74);
+            this.dgStatistics.Size = new System.Drawing.Size(426, 168);
             this.dgStatistics.TabIndex = 10;
-            // 
-            // pictureBox2
-            // 
-            this.tableLayoutPanelH_.SetColumnSpan(this.pictureBox2, 2);
-            this.pictureBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(3, 3);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(426, 194);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox2.TabIndex = 11;
-            this.pictureBox2.TabStop = false;
             // 
             // tableLayoutPanel5
             // 
@@ -987,120 +922,33 @@ namespace Vison_Inspect_System
             this.tableLayoutPanelH_.SetColumnSpan(this.tableLayoutPanel5, 2);
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel5.Controls.Add(this.dgFlatness, 0, 1);
             this.tableLayoutPanel5.Controls.Add(this.dgData, 0, 0);
             this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 334);
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 350);
             this.tableLayoutPanel5.Name = "tableLayoutPanel5";
             this.tableLayoutPanel5.RowCount = 2;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(426, 86);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(426, 68);
             this.tableLayoutPanel5.TabIndex = 16;
-            // 
-            // dgFlatness
-            // 
-            this.dgFlatness.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgFlatness.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.SNNum,
-            this.data1,
-            this.data2,
-            this.Flatness,
-            this.FlatnessRes});
-            this.tableLayoutPanel5.SetColumnSpan(this.dgFlatness, 2);
-            this.dgFlatness.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgFlatness.Location = new System.Drawing.Point(3, 46);
-            this.dgFlatness.Name = "dgFlatness";
-            this.dgFlatness.RowTemplate.Height = 23;
-            this.dgFlatness.Size = new System.Drawing.Size(420, 37);
-            this.dgFlatness.TabIndex = 14;
-            // 
-            // SNNum
-            // 
-            this.SNNum.HeaderText = "序号";
-            this.SNNum.Name = "SNNum";
-            this.SNNum.ReadOnly = true;
-            this.SNNum.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // data1
-            // 
-            this.data1.HeaderText = "数据1";
-            this.data1.Name = "data1";
-            this.data1.ReadOnly = true;
-            this.data1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // data2
-            // 
-            this.data2.HeaderText = "数据2";
-            this.data2.Name = "data2";
-            this.data2.ReadOnly = true;
-            this.data2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Flatness
-            // 
-            this.Flatness.HeaderText = "平面度数据";
-            this.Flatness.Name = "Flatness";
-            this.Flatness.ReadOnly = true;
-            this.Flatness.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // FlatnessRes
-            // 
-            this.FlatnessRes.HeaderText = "平面度结果";
-            this.FlatnessRes.Name = "FlatnessRes";
-            this.FlatnessRes.ReadOnly = true;
-            this.FlatnessRes.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
             // dgData
             // 
             this.dgData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgData.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.SN,
-            this.BendH,
-            this.BendL,
-            this.HeightAltitude,
-            this.Result});
+            this.DetPos1,
+            this.DetPos2,
+            this.HeightDiff,
+            this.Res});
+            this.tableLayoutPanel5.SetColumnSpan(this.dgData, 2);
             this.dgData.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgData.Location = new System.Drawing.Point(3, 3);
             this.dgData.Name = "dgData";
-            this.dgData.ReadOnly = true;
+            this.tableLayoutPanel5.SetRowSpan(this.dgData, 2);
             this.dgData.RowTemplate.Height = 23;
-            this.dgData.Size = new System.Drawing.Size(420, 37);
-            this.dgData.TabIndex = 12;
-            // 
-            // SN
-            // 
-            this.SN.HeaderText = "序号";
-            this.SN.Name = "SN";
-            this.SN.ReadOnly = true;
-            this.SN.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // BendH
-            // 
-            this.BendH.HeaderText = "检测位置数据1";
-            this.BendH.Name = "BendH";
-            this.BendH.ReadOnly = true;
-            this.BendH.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // BendL
-            // 
-            this.BendL.HeaderText = "检测位置数据2";
-            this.BendL.Name = "BendL";
-            this.BendL.ReadOnly = true;
-            this.BendL.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // HeightAltitude
-            // 
-            this.HeightAltitude.HeaderText = "高度差数据";
-            this.HeightAltitude.Name = "HeightAltitude";
-            this.HeightAltitude.ReadOnly = true;
-            this.HeightAltitude.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            // 
-            // Result
-            // 
-            this.Result.HeaderText = "判断结果";
-            this.Result.Name = "Result";
-            this.Result.ReadOnly = true;
-            this.Result.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.dgData.Size = new System.Drawing.Size(420, 62);
+            this.dgData.TabIndex = 14;
             // 
             // label3
             // 
@@ -1117,6 +965,74 @@ namespace Vison_Inspect_System
             // Ctrtimer
             // 
             this.Ctrtimer.Tick += new System.EventHandler(this.Ctrtimer_Tick);
+            // 
+            // labCamResult
+            // 
+            this.labCamResult.AutoSize = true;
+            this.labCamResult.BackColor = System.Drawing.Color.Lime;
+            this.labCamResult.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.labCamResult.Font = new System.Drawing.Font("宋体", 25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.labCamResult.Location = new System.Drawing.Point(216, 0);
+            this.labCamResult.Name = "labCamResult";
+            this.labCamResult.Size = new System.Drawing.Size(207, 72);
+            this.labCamResult.TabIndex = 9;
+            this.labCamResult.Text = "视觉Pin针距离检测OK";
+            this.labCamResult.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // SN
+            // 
+            this.SN.HeaderText = "序号";
+            this.SN.Name = "SN";
+            this.SN.ReadOnly = true;
+            this.SN.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // DetPos1
+            // 
+            this.DetPos1.HeaderText = "检测位1";
+            this.DetPos1.Name = "DetPos1";
+            this.DetPos1.ReadOnly = true;
+            this.DetPos1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // DetPos2
+            // 
+            this.DetPos2.HeaderText = "检测位2";
+            this.DetPos2.Name = "DetPos2";
+            this.DetPos2.ReadOnly = true;
+            this.DetPos2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // HeightDiff
+            // 
+            this.HeightDiff.HeaderText = "高度差";
+            this.HeightDiff.Name = "HeightDiff";
+            this.HeightDiff.ReadOnly = true;
+            this.HeightDiff.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // Res
+            // 
+            this.Res.HeaderText = "结果";
+            this.Res.Name = "Res";
+            this.Res.ReadOnly = true;
+            this.Res.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            // 
+            // panel1
+            // 
+            this.tableLayoutPanelH_.SetColumnSpan(this.panel1, 2);
+            this.panel1.Controls.Add(this.dgStatistics);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 176);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(426, 168);
+            this.panel1.TabIndex = 17;
+            // 
+            // panel2
+            // 
+            this.tableLayoutPanelH_.SetColumnSpan(this.panel2, 2);
+            this.panel2.Controls.Add(this.dgTotal);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(3, 152);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(426, 18);
+            this.panel2.TabIndex = 18;
             // 
             // MainForm
             // 
@@ -1158,14 +1074,13 @@ namespace Vison_Inspect_System
             this.tableLayoutPanelH_.ResumeLayout(false);
             this.tableLayoutPanel4.ResumeLayout(false);
             this.tableLayoutPanel4.PerformLayout();
-            this.tableLayoutPanel_total.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgTotal)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgStatistics)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.tableLayoutPanel5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgFlatness)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgData)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSource1)).EndInit();
+            this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1232,11 +1147,9 @@ namespace Vison_Inspect_System
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private VMControls.Winform.Release.VmMainViewConfigControl vmMainViewConfigControl1;
         private VMControls.Winform.Release.VmGlobalToolControl vmGlobalToolControl1;
-        private System.Windows.Forms.Label labCamResult;
         private System.Windows.Forms.Panel CamPannel;
         private System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanelH_;
-        private System.Windows.Forms.DataGridView dgData;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
         private System.Windows.Forms.Label labDataRes;
@@ -1248,21 +1161,16 @@ namespace Vison_Inspect_System
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel_total;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SN;
-        private System.Windows.Forms.DataGridViewTextBoxColumn BendH;
-        private System.Windows.Forms.DataGridViewTextBoxColumn BendL;
-        private System.Windows.Forms.DataGridViewTextBoxColumn HeightAltitude;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Result;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.Label labFlatness;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
-        private System.Windows.Forms.DataGridView dgFlatness;
-        private System.Windows.Forms.DataGridViewTextBoxColumn SNNum;
-        private System.Windows.Forms.DataGridViewTextBoxColumn data1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn data2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Flatness;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FlatnessRes;
+        private System.Windows.Forms.DataGridView dgData;
+        private System.Windows.Forms.Label labCamResult;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SN;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DetPos1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DetPos2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn HeightDiff;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Res;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
     }
 }
 
