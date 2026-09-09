@@ -50,8 +50,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>
-    </ApplicationIcon>
+    <ApplicationIcon>机器视觉图标.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup />
   <PropertyGroup />
@@ -366,6 +365,7 @@
   <ItemGroup />
   <ItemGroup>
     <Content Include="Pic_Source\R-C.jpg" />
+    <Content Include="机器视觉图标.ico" />
     <None Include="Pic_Source\相机.png" />
     <None Include="Pic_Source\生产配方.png" />
     <None Include="Pic_Source\触发.png" />
