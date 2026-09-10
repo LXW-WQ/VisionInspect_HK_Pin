@@ -51,8 +51,8 @@ namespace Vison_Inspect_System
             Pin针2距离1结果,
             Pin针2距离2,
             Pin针2距离2结果,
-            Pin针与Pin针2距离,
-            Pin针与Pin针2结果,
+            Pin针1与Pin针2距离,
+            Pin针1与Pin针2距离结果,
             Pin针距离检测总结果,
             成品总结果
         }
@@ -1019,7 +1019,7 @@ namespace Vison_Inspect_System
                     }
 
                     //执行PLC数据获取、主要是高度差的数据获取
-                    if (trigDataGet == 1)
+                    if (trigDataGet ==1)
                     {
                         bool DataGetSuccess = true;
                         modebusClient.WriteValue("7006", (short)(0));//将数据获取信号清零
@@ -1077,8 +1077,8 @@ namespace Vison_Inspect_System
                 sqlMessageDic[sqlHead.Pin针2距离1结果] = visonRes.Pin2Dis1Res ? "OK" : "NG";
                 sqlMessageDic[sqlHead.Pin针2距离2] = visonRes.Pin2Dis2.ToString();
                 sqlMessageDic[sqlHead.Pin针2距离2结果] = visonRes.Pin2Dis2Res ? "OK" : "NG";
-                sqlMessageDic[sqlHead.Pin针与Pin针2距离] = visonRes.Pin1Pin2Dis.ToString();
-                sqlMessageDic[sqlHead.Pin针与Pin针2结果] = visonRes.Pin1Pin2DisRes ? "OK" : "NG";
+                sqlMessageDic[sqlHead.Pin针1与Pin针2距离] = visonRes.Pin1Pin2Dis.ToString();
+                sqlMessageDic[sqlHead.Pin针1与Pin针2距离结果] = visonRes.Pin1Pin2DisRes ? "OK" : "NG";
                 sqlMessageDic[sqlHead.Pin针距离检测总结果] = visonRes.InspectTotalStauts ? "OK" : "NG";
             }
             else
@@ -1091,8 +1091,8 @@ namespace Vison_Inspect_System
                 sqlMessageDic[sqlHead.Pin针2距离1结果] = "NG";
                 sqlMessageDic[sqlHead.Pin针2距离2] = "0.000";
                 sqlMessageDic[sqlHead.Pin针2距离2结果] = "NG";
-                sqlMessageDic[sqlHead.Pin针与Pin针2距离] = "0.000";
-                sqlMessageDic[sqlHead.Pin针与Pin针2结果] = "NG";
+                sqlMessageDic[sqlHead.Pin针1与Pin针2距离] = "0.000";
+                sqlMessageDic[sqlHead.Pin针1与Pin针2距离结果] = "NG";
                 sqlMessageDic[sqlHead.Pin针距离检测总结果] = "NG";
             }
         }
