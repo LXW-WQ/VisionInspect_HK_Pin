@@ -26,7 +26,7 @@ namespace Vison_Inspect_System._2_ComPart.Statistics
         //从数据库获取各个班次的数据
         private void GetSqlData()
         {
-            string selectSql = $"SELECT * FROM statisticstable2";
+            string selectSql = $"SELECT * FROM statisticstable";
             dt = GloabalTool.mysql_Insert.ExecSQLQuery(selectSql, null);
             bindingSource1.DataSource = dt;
             dgStatistics.DataSource = bindingSource1;

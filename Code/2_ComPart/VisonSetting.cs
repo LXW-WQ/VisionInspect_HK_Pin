@@ -211,6 +211,7 @@ namespace Vison_Inspect_System._2_ComPart
             if (_currentRecipe == null)
             {
                 MessageBox.Show("配方为空、请先选择配方或新建配方！！");
+                return;
             }
             OpenFileDialog op = new OpenFileDialog();
             if (op.ShowDialog() == DialogResult.OK)

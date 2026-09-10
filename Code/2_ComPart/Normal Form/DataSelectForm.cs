@@ -38,14 +38,14 @@ namespace Vison_Inspect_System._2_ComPart.Normal_Form
             switch (GetModel(grbSelectMode))
             {
                 case "查询最新1000条数据":
-                    SelectSql = "SELECT * FROM ProductInspectTable2 ORDER BY 日期 DESC LIMIT 1000";
+                    SelectSql = "SELECT * FROM ProductInspectTable ORDER BY 日期 DESC LIMIT 1000";
                     break;
                 case "按插入时间查询":
-                    SelectSql = $"SELECT * FROM ProductInspectTable2 WHERE 日期 BETWEEN '{this.dateTimePickerStart.Text.Trim()}' AND '{this.dateTimePickerEnd.Text.Trim()}'";
+                    SelectSql = $"SELECT * FROM ProductInspectTable WHERE 日期 BETWEEN '{this.dateTimePickerStart.Text.Trim()}' AND '{this.dateTimePickerEnd.Text.Trim()}'";
                     break;
                 case "按总结果+插入时间查询":
                     string StrResult1 = Rdb_OK.Checked ? Rdb_OK.Text.Trim() : Rdb_NG.Text.Trim();
-                    SelectSql = $"SELECT * FROM ProductInspectTable2 WHERE 成品总结果='{StrResult1}' AND  日期 BETWEEN '{this.dateTimePickerStart.Text.Trim()}' AND '{this.dateTimePickerEnd.Text.Trim()}'";
+                    SelectSql = $"SELECT * FROM ProductInspectTable WHERE 成品总结果='{StrResult1}' AND  日期 BETWEEN '{this.dateTimePickerStart.Text.Trim()}' AND '{this.dateTimePickerEnd.Text.Trim()}'";
                     break;
             }
             dt = GloabalTool.mysql_Select.ExecSQLQuery(SelectSql, null);

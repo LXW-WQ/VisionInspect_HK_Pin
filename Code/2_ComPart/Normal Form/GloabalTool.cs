@@ -14,7 +14,7 @@ namespace Vison_Inspect_System._2_ComPart.Normal_Form
     {
         public static string MainDir = @"C:\LXW\";
         public static string ConfigDir = @"C:\LXW\Config\";
-        public static string ProductionCofigDir = @"C:\LXW\Recipe2\";
+        public static string ProductionCofigDir = @"C:\LXW\Recipe\";
         public static string Path_Equipment_Setting = @"C:\LXW\Config\EquipmentSetting.xml";
         public static string ProductFullName = String.Empty;
         public static EquipmentSettings equipmentSettings = null;

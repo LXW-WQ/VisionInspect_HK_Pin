@@ -254,7 +254,7 @@ namespace Vison_Inspect_System
             statisticsDic.Add(23, new ProductionRecord() { SN = 23, Timestamp = "06:00-07:00" });
             statisticsDic.Add(24, new ProductionRecord() { SN = 24, Timestamp = "07:00-08:00" });
 
-            string selectSql = $"SELECT * FROM statisticstable2";
+            string selectSql = $"SELECT * FROM statisticstable";
             DataTable dt = GloabalTool.mysql_Insert.ExecSQLQuery(selectSql, null);
             bindingSource1.DataSource = dt;
             dgStatistics.DataSource = bindingSource1;
@@ -1041,7 +1041,6 @@ namespace Vison_Inspect_System
                             Log.SaveLog(LogType.Error, $"插入数据库错误：{err}");
                             DataGetSuccess = false;
                         }
-                        //将折弯数据保存到数据库----------------------------------------待处理
                         modebusClient.WriteValue("7106", (short)(DataGetSuccess ? 1 : 2));//数据写入完成（1：写入成功；2：写入失败）
                         sqlMessageDic.Clear();
                         for (int i = 0; i < Enum.GetValues(typeof(sqlHead)).Length; i++)
@@ -1345,7 +1344,7 @@ namespace Vison_Inspect_System
         private string UpdateStatisticsFrm()
         {
             var err = string.Empty;
-            string selectSql = $"SELECT * FROM statisticstable1";
+            string selectSql = $"SELECT * FROM statisticstable";
             DataTable dt = GloabalTool.mysql_Insert.ExecSQLQuery(selectSql, null);
             if (dt.Rows.Count == 24)
             {

@@ -89,7 +89,7 @@ namespace Vison_Inspect_System._2_ComPart.Statistics
                 string strUpdateMesg = string.Join(",", updateInfoList);
                 for (int i = 1; i <= 24; i++)
                 {
-                    string UpDateSql1 = $"UPDATE statisticstable2 SET {strUpdateMesg} WHERE 序号={i}";
+                    string UpDateSql1 = $"UPDATE statisticstable SET {strUpdateMesg} WHERE 序号={i}";
                     int nRet = GloabalTool.mysql_Insert.ExecSQL(UpDateSql1);
                     Log.SaveLog(LogType.Data, $"更新数据库语句【{UpDateSql1}】{(nRet > 0 ? "成功" : "失败")}");
                 }
